@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>UTTS Randevu Formu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #003366;
+        }
+
+        label {
+            margin-top: 15px;
+            display: block;
+            color: #333;
+        }
+
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #0066cc;
+            color: white;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d99;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Randevu Formu</h2>
+        <form>
+            <label for="name">Ad Soyad:</label>
+            <input type="text" id="name" required>
+
+            <label for="tc">TC Kimlik No:</label>
+            <input type="text" id="tc" required>
+
+            <label for="phone">Telefon:</label>
+            <input type="tel" id="phone" required>
+
+            <label for="email">E-Posta:</label>
+            <input type="email" id="email">
+
+            <label for="type">Bireysel/Kurumsal:</label>
+            <select id="type" required>
+                <option value="">Seçiniz</option>
+                <option value="bireysel">Bireysel</option>
+                <option value="kurumsal">Kurumsal</option>
+            </select>
+
+            <label for="date">Tarih:</label>
+            <input type="date" id="date" required>
+
+            <label for="time">Saat:</label>
+            <input type="time" id="time" min="10:00" max="18:00" required>
+
+            <label for="note">Ek Not:</label>
+            <textarea id="note" rows="3"></textarea>
+
+            <button type="submit">Randevu Al</button>
+        </form>
+    </div>
+
+    <script>
+    document.querySelector("form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = {
+            name: document.getElementById("name").value,
+            tc: document.getElementById("tc").value,
+            phone: document.getElementById("phone").value,
+            email: document.getElementById("email").value,
+            type: document.getElementById("type").value,
+            date: document.getElementById("date").value,
+            time: document.getElementById("time").value,
+            note: document.getElementById("note").value
+        };
+
+        const response = await fetch("http://localhost:3000/randevu", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        alert(result.message);
+    });
+    </script>
+</body>
+</html>
